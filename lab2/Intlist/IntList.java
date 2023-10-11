@@ -124,7 +124,7 @@ public class IntList {
             list = new IntList(B.first, null);
             IntList current = list;
             B = B.rest;
-            while (A != null) {
+            while (B != null) {
                 current.rest = new IntList(B.first, null);
                 B = B.rest;
                 current = current.rest;
