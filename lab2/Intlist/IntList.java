@@ -87,11 +87,10 @@ public class IntList {
             A = B;
             return A;
         }
-        if (list.rest == null) {
-           list.rest = B;
-        } else {
-            dcatenate(list.rest, B);
+        while (list.rest != null) {
+           list = list.rest;
         }
+        list.rest = B;
         return A;
     }
 
