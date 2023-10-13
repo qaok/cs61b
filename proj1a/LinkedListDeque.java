@@ -8,6 +8,12 @@ public class LinkedListDeque<T> {
             prev = p;
             item = i;
             next = n;
+            if (p != null) {
+                p.next = this;
+            }
+            if (n != null) {
+                n.prev = this;
+            }
         }
     } 
 
@@ -24,12 +30,12 @@ public class LinkedListDeque<T> {
     }
 
     public void addFirst(T item) {
-        sentFront.next = new Deque(sentFront, item, sentBack.prev);
+        sentFront.next = new Deque(sentFront.next, item, sentBack.prev);
         size += 1;
     }
 
     public void addLast(T item) {
-        sentBack.prev = new Deque(sentFront.next, item, sentBack);
+        sentBack.prev = new Deque(sentFront.next, item, sentBack.prev);
         size += 1;
     }
 
@@ -45,7 +51,7 @@ public class LinkedListDeque<T> {
     }
 
     public void printDeque() {
-        Deque ptr = sentFront.next;
+        Deque ptr = sentFront;
         while (ptr.next != null) {
             ptr = ptr.next;
             System.out.print(ptr.item);
@@ -59,6 +65,7 @@ public class LinkedListDeque<T> {
             return null;
         }
         Deque removedeque = sentFront.next;
+        sentFront.next = removedeque.next;
         size -= 1;
         return removedeque.item;
     }
@@ -68,6 +75,7 @@ public class LinkedListDeque<T> {
             return null;
         }
         Deque removedeque = sentBack.prev;
+        sentBack.prev = removedeque.prev;
         size -= 1;
         return removedeque.item;
     }
