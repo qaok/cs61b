@@ -50,14 +50,14 @@ public class ArrayDeque<T> {
         System.out.println(" ");
     }
 
-    public T getFirst() {
+    private T getFirst() {
         if (size == 0) {
             return null;
         }
         return items[0];
     }
 
-    public T getLast() {
+    private T getLast() {
         if (size == 0) {
             return null;
         }
