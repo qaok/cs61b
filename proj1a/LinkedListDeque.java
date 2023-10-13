@@ -24,12 +24,12 @@ public class LinkedListDeque<T> {
     }
 
     public void addFirst(T item) {
-        sentFront.next = new Deque(sentFront, item, sentBack);
+        sentFront.next = new Deque(sentFront, item, sentBack.prev);
         size += 1;
     }
 
     public void addLast(T item) {
-        sentBack.prev = new Deque(sentFront, item, sentBack);
+        sentBack.prev = new Deque(sentFront.next, item, sentBack);
         size += 1;
     }
 
@@ -45,7 +45,7 @@ public class LinkedListDeque<T> {
     }
 
     public void printDeque() {
-        Deque ptr = sentFront;
+        Deque ptr = sentFront.next;
         while (ptr.next != null) {
             ptr = ptr.next;
             System.out.print(ptr.item);
@@ -58,7 +58,7 @@ public class LinkedListDeque<T> {
         if (size == 0) {
             return null;
         }
-        Deque removedeque = sentFront.prev;
+        Deque removedeque = sentFront.next;
         size -= 1;
         return removedeque.item;
     }
@@ -67,29 +67,26 @@ public class LinkedListDeque<T> {
         if (size == 0) {
             return null;
         }
-        Deque removedeque = sentBack;
-        sentBack = removedeque.next;
-        sentBack.next = null;
+        Deque removedeque = sentBack.prev;
         size -= 1;
         return removedeque.item;
     }
 
     public T get(int index) {
-        Deque p = sentFront;
         if (index < 0 || (size <= index)) {
             return null;
         }
-        Deque ptr = sentFront.prev;
-            int a = 0;
-            while (a < index) {
-                a = a + 1;
-                ptr = ptr.prev;
-            }
-            return ptr.item;
+        Deque ptr = sentFront.next;
+        int a = 0;
+        while (a < index) {
+            a = a + 1;
+            ptr = ptr.next;
+        }
+        return ptr.item;
     }
 
     public T getRecursive(int index) {
-        return helper(index, sentBack.prev);
+        return helper(index, sentFront.next);
     }
 
     private T helper(int index, Deque newdeque) {
@@ -99,6 +96,6 @@ public class LinkedListDeque<T> {
         if (index == 0) {
             return newdeque.item;
         }
-        return helper(index - 1, newdeque.prev);
+        return helper(index - 1, newdeque.next);
     }
 }
