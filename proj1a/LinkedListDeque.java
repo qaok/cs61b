@@ -78,6 +78,9 @@ public class LinkedListDeque<T> {
             return null;
         }
         Deque removedeque = sentBack.prev;
+        if (removedeque.prev == sentFront) {
+            sentBack = sentFront;
+        }
         sentBack.prev = removedeque.prev;
         size -= 1;
         return removedeque.item;
