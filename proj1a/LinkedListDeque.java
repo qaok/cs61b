@@ -24,19 +24,17 @@ public class LinkedListDeque<T> {
     }
 
     public void addFirst(T item) {
-        sentFront.next = new Deque(sentFront, item, sentFront.next);
+        Deque newdeque = new Deque(sentFront, item, sentFront.next);
         size += 1;
         if (size == 1) {
-            sentBack = sentFront.next;
+            sentBack = newdeque;
         }
     }
 
     public void addLast(T item) {
-        sentBack.prev = new Deque(sentBack.prev, item, sentBack);
+        Deque newdeque = new Deque(sentBack.prev, item, sentBack);
         size += 1;
-        if (size == 1) {
-            sentFront = sentBack.prev;
-        }
+        sentBack = newdeque;
     }
 
     public boolean isEmpty() {
@@ -64,11 +62,12 @@ public class LinkedListDeque<T> {
         if (size == 0) {
             return null;
         }
-        Deque removedeque = sentFront.next;
+        Deque removedeque = sentFront;
         if (removedeque.next == sentBack) {
-            sentFront = sentBack;
+            sentBack = sentFront;
+        } else {
+            removedeque.next = sentFront;
         }
-        sentFront.next = removedeque.next;
         size -= 1;
         return removedeque.item;
     }
@@ -77,11 +76,9 @@ public class LinkedListDeque<T> {
         if (size == 0) {
             return null;
         }
-        Deque removedeque = sentBack.prev;
-        if (removedeque.prev == sentFront) {
-            sentBack = sentFront;
-        }
-        sentBack.prev = removedeque.prev;
+        Deque removedeque = sentBack;
+        sentBack = removedeque.prev;
+        sentBack.next = null;
         size -= 1;
         return removedeque.item;
     }
