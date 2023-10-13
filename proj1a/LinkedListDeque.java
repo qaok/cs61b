@@ -24,18 +24,18 @@ public class LinkedListDeque<T> {
     }
 
     public void addFirst(T item) {
-        Deque newdeque = new Deque(sentFront, item, sentFront.next);
+        sentFront.next = new Deque(sentFront, item, sentFront.next);
         size += 1;
         if (size == 1) {
-            sentBack = newdeque;
+            sentBack = sentFront.next;
         }
     }
 
     public void addLast(T item) {
-        Deque newdeque = new Deque(sentBack.prev, item, sentBack);
+        sentBack.prev = new Deque(sentBack.prev, item, sentBack);
         size += 1;
         if (size == 1) {
-            sentFront = newdeque;
+            sentFront = sentBack.prev;
         }
     }
 
