@@ -24,18 +24,18 @@ public class LinkedListDeque<T> {
     }
 
     public void addFirst(T item) {
-        sentFront.next = new Deque(sentFront, item, sentFront.next);
+        Deque newdeque = new Deque(sentFront, item, sentFront.next);
         size += 1;
         if (size == 1) {
-            sentBack = sentFront.next;
+            sentBack = newdeque;
         }
     }
 
     public void addLast(T item) {
-        sentBack.prev = new Deque(sentBack.prev, item, sentBack);
+        Deque newdeque = new Deque(sentBack.prev, item, sentBack);
         size += 1;
         if (size == 1) {
-            sentFront = sentBack.prev;
+            sentFront = newdeque;
         }
     }
 
@@ -104,7 +104,7 @@ public class LinkedListDeque<T> {
     }
 
     private T helper(int index, Deque newdeque) {
-        if (index >= size ||size == 0) {
+        if (index >= size || size == 0) {
             return null;
         }
         if (index == 0) {
