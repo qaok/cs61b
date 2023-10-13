@@ -4,7 +4,7 @@ public class LinkedListDeque<T> {
         private T item;
         private Deque next;
 
-        public Deque(Deque p, T i, Deque n) {
+        private Deque(Deque p, T i, Deque n) {
             prev = p;
             item = i;
             next = n;
@@ -88,8 +88,8 @@ public class LinkedListDeque<T> {
             return ptr.item;
     }
 
-    public T getRecursize(int index) {
-        return helper(index, sentFront.prev);
+    public T getRecursive(int index) {
+        return helper(index, sentBack.prev);
     }
 
     private T helper(int index, Deque newdeque) {
