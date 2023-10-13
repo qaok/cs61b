@@ -27,18 +27,12 @@ public class LinkedListDeque<T> {
         Deque<T> newdeque = new Deque(sentFront, item, sentFront.next);
         sentFront.next = newdeque;
         size += 1;
-        if (size == 1) {
-            sentBack = sentFront.next;
-        }
     }
 
     public void addLast(T item) {
         Deque<T> newdeque = new Deque(sentBack.prev, item, sentBack);
         sentBack.prev = newdeque;
         size += 1;
-        if (size == 1) {
-            sentFront = sentBack.prev;
-        }
     }
 
     public boolean isEmpty() {

@@ -98,7 +98,7 @@ public class ArrayDeque<T> {
 
     public T removeFirst() {
         T x = getFirst();
-        first += 1;
+        first = updatelast(first);
         items[first] = null;
         size -= 1;
         if (size < capacity / 4 && capacity > 8) {
@@ -109,7 +109,7 @@ public class ArrayDeque<T> {
 
     public T removeLast() {
         T x = getLast();
-        last -= 1;
+        last = updatefirst(last);
         items[last] = null;
         size -= 1;
         if (size < capacity / 4 && capacity > 8) {
