@@ -87,7 +87,7 @@ public class LinkedListDeque<T> {
     }
 
     public T get(int index) {
-        if (index < 0 || (size <= index)) {
+        if (size <= index || size == 0) {
             return null;
         }
         Deque ptr = sentFront.next;
@@ -104,7 +104,7 @@ public class LinkedListDeque<T> {
     }
 
     private T helper(int index, Deque newdeque) {
-        if (index >= size || index < 0) {
+        if (index >= size ||size == 0) {
             return null;
         }
         if (index == 0) {
