@@ -16,6 +16,7 @@ public class LinkedListDeque<T> {
     private int size;
 
 
+
     public LinkedListDeque() {
         sentFront = new Deque(null, (T) new Object(), null);
         sentBack = sentFront;

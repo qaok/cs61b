@@ -14,6 +14,7 @@ public class ArrayDeque<T> {
         
     }
 
+
     private int updatefirst(int i) {
         return (i - 1 + capacity) % capacity;
     }
