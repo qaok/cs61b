@@ -65,12 +65,10 @@ public class LinkedListDeque<T> {
             return null;
         }
         Deque removedeque = sentFront.next;
-        sentFront.next = removedeque.next;
-        if (removedeque == sentBack) {
+        if (removedeque.next == sentBack) {
             sentFront = sentBack;
-        } else {
-            removedeque.prev.next = sentFront;
         }
+        sentFront.next = removedeque.next;
         size -= 1;
         return removedeque.item;
     }
