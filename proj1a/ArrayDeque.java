@@ -75,14 +75,16 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
-        return items[first + 1];
+        first = updatefirst(first);
+        return items[first];
     }
 
     private T getLast() {
         if (size == 0) {
             return null;
         }
-        return items[last - 1];
+        last = updatelast(last);
+        return items[last];
     }
 
     public T get(int index) {
