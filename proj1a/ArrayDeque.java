@@ -23,16 +23,16 @@ public class ArrayDeque<T> {
     }
 
     private void resize(int x) {
-        capacity = x;
-        T[] a = (T[]) new Object[capacity];
+        T[] a = (T[]) new Object[x];
         for (int i = first + 1, j = 0; j < size; i++, j++) {
             if (i >= capacity) {
                 i = 0;
             }
             a[j] = items[i];
         }
+        capacity = items.length;
         last = size;
-        first = capacity - 1;
+        first = x - 1;
         items = a;       
     }
 
@@ -56,7 +56,7 @@ public class ArrayDeque<T> {
     }
 
     public boolean isEmpty() {
-        if (size == 0) {
+        if (size <= 0) {
             return true;
         }
         return false;
@@ -72,7 +72,7 @@ public class ArrayDeque<T> {
     }
 
     private T getFirst() {
-        if (size == 0) {
+        if (size <= 0) {
             return null;
         }
         int index = first;
@@ -81,7 +81,7 @@ public class ArrayDeque<T> {
     }
 
     private T getLast() {
-        if (size == 0) {
+        if (size <= 0) {
             return null;
         }
         int index = last;
@@ -101,6 +101,9 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
+        if (size <= 0) {
+            return null;
+        }
         T x = getFirst();
         first = updatelast(first);
         items[first] = null;
@@ -112,6 +115,9 @@ public class ArrayDeque<T> {
     }
 
     public T removeLast() {
+        if (size <= 0) {
+            return null;
+        }
         T x = getLast();
         last = updatefirst(last);
         items[last] = null;
