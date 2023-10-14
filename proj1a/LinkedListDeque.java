@@ -78,41 +78,41 @@ public class LinkedListDeque<T> {
         return removedeque.item;
     }
 
-        public T removeLast() {
-            if (size == 0) {
-                return null;
-            }
-            Deque removedeque = sentBack;
-            sentBack = removedeque.prev;
-            sentBack.next = null;
-            size -= 1;
-            return removedeque.item;
+    public T removeLast() {
+        if (size == 0) {
+            return null;
         }
-
-        public T get ( int index){
-            if (size <= index || size == 0) {
-                return null;
-            }
-            Deque ptr = sentFront.next;
-            int a = 0;
-            while (a < index) {
-                a = a + 1;
-                ptr = ptr.next;
-            }
-            return ptr.item;
-        }
-
-        private T helper ( int index, Deque nowdeque){
-            if (index == 0) {
-                return nowdeque.item;
-            }
-            if (index >= size || size == 0) {
-                return null;
-            }
-            return helper(index - 1, nowdeque.next);
-        }
-
-        public T getRecursive (int index){
-            return helper(index, sentFront.next);
-        }
+        Deque removedeque = sentBack;
+        sentBack = removedeque.prev;
+        sentBack.next = null;
+        size -= 1;
+        return removedeque.item;
     }
+
+    public T get ( int index){
+        if (size <= index || size == 0) {
+            return null;
+        }
+        Deque ptr = sentFront.next;
+        int a = 0;
+        while (a < index) {
+            a = a + 1;
+            ptr = ptr.next;
+        }
+        return ptr.item;
+    }
+
+    private T helper ( int index, Deque nowdeque){
+        if (index == 0) {
+            return nowdeque.item;
+        }
+        if (index >= size || size == 0) {
+            return null;
+        }
+        return helper(index - 1, nowdeque.next);
+    }
+
+    public T getRecursive (int index){
+        return helper(index, sentFront.next);
+    }
+}
