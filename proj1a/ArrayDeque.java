@@ -6,11 +6,11 @@ public class ArrayDeque<T> {
     private int capacity;
 
     public ArrayDeque() {
+        capacity = 8;
         size = 0;
         first = 4;
         last = 5;
-        items = (T[]) new Object[8];
-        capacity = items.length;
+        items = (T[]) new Object[capacity];
     }
 
 
@@ -24,6 +24,7 @@ public class ArrayDeque<T> {
 
     private void resize(int x) {
         T[] a = (T[]) new Object[x];
+        capacity *= 2;
         for (int i = first + 1, j = 0; j < size; i++, j++) {
             if (i >= capacity) {
                 i = 0;
