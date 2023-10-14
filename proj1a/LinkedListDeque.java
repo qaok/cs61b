@@ -112,7 +112,7 @@ public class LinkedListDeque<T> {
         return helper(index - 1, nowdeque.next);
     }
 
-    public T getRecursive (int index) {
+    public T getRecursive(int index) {
         return helper(index, sentFront.next);
     }
 }
