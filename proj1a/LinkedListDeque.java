@@ -89,7 +89,7 @@ public class LinkedListDeque<T> {
         return removedeque.item;
     }
 
-    public T get ( int index){
+    public T get(int index) {
         if (size <= index || size == 0) {
             return null;
         }
@@ -102,7 +102,7 @@ public class LinkedListDeque<T> {
         return ptr.item;
     }
 
-    private T helper ( int index, Deque nowdeque){
+    private T helper(int index, Deque nowdeque) {
         if (index == 0) {
             return nowdeque.item;
         }
@@ -112,7 +112,7 @@ public class LinkedListDeque<T> {
         return helper(index - 1, nowdeque.next);
     }
 
-    public T getRecursive (int index){
+    public T getRecursive (int index) {
         return helper(index, sentFront.next);
     }
 }
