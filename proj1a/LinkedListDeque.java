@@ -1,5 +1,5 @@
 public class LinkedListDeque<T> {
-    private class Deque{
+    private class Deque {
         private Deque prev;
         private T item;
         private Deque next;
@@ -20,7 +20,6 @@ public class LinkedListDeque<T> {
     private Deque sentFront;
     private Deque sentBack;
     private int size;
-
 
 
     public LinkedListDeque() {
@@ -79,7 +78,7 @@ public class LinkedListDeque<T> {
         return removedeque.item;
     }
 
-        public T removeLast () {
+        public T removeLast() {
             if (size == 0) {
                 return null;
             }
