@@ -75,7 +75,7 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
-        first = updatefirst(first);
+        first = updatelast(first);
         return items[first];
     }
 
@@ -83,7 +83,7 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
-        last = updatelast(last);
+        last = updatefirst(last);
         return items[last];
     }
 
