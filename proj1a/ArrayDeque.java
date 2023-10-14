@@ -6,11 +6,11 @@ public class ArrayDeque<T> {
     private int capacity;
 
     public ArrayDeque() {
-        capacity = 8;
         size = 0;
         first = 4;
         last = 5;
-        items = (T[]) new Object[capacity];
+        items = (T[]) new Object[8];
+        capacity = items.length;
     }
 
 
@@ -30,7 +30,6 @@ public class ArrayDeque<T> {
             }
             a[j] = items[i];
         }
-        capacity = items.length;
         last = size;
         first = x - 1;
         items = a;       
@@ -71,6 +70,7 @@ public class ArrayDeque<T> {
         }
     }
 
+    /**
     private T getFirst() {
         if (size <= 0) {
             return null;
@@ -88,6 +88,7 @@ public class ArrayDeque<T> {
         index = updatefirst(index);
         return items[index];
     }
+    */
 
     public T get(int index) {
         if (index < 0 || index > size) {
@@ -107,8 +108,8 @@ public class ArrayDeque<T> {
         if (size <= 0) {
             return null;
         }
-        T x = getFirst();
-        first = updatelast(first);
+        first = updatelast(first);   //go to the next position.
+        T x = items[first];
         items[first] = null;
         size -= 1;
         if (size < capacity / 4 && capacity > 8) {
@@ -121,8 +122,8 @@ public class ArrayDeque<T> {
         if (size <= 0) {
             return null;
         }
-        T x = getLast();
         last = updatefirst(last);
+        T x = items[last];
         items[last] = null;
         size -= 1;
         if (size < capacity / 4 && capacity > 8) {
