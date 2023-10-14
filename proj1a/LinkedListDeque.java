@@ -1,18 +1,24 @@
 public class LinkedListDeque<T> {
-    private class Deque<T> {
-        private Deque<T> prev;
+    private class Deque{
+        private Deque prev;
         private T item;
-        private Deque<T> next;
+        private Deque next;
 
-        private Deque(Deque<T> p, T i, Deque<T> n) {
+        private Deque(Deque p, T i, Deque n) {
             prev = p;
             item = i;
             next = n;
+            if (n != null) {
+                n.prev = this;
+            }
+            if (p != null) {
+                p.next = this;
+            }
         }
     }
 
-    private Deque<T> sentFront;
-    private Deque<T> sentBack;
+    private Deque sentFront;
+    private Deque sentBack;
     private int size;
 
 
@@ -24,14 +30,16 @@ public class LinkedListDeque<T> {
     }
 
     public void addFirst(T item) {
-        Deque<T> newdeque = new Deque(sentFront, item, sentFront.next);
-        sentFront.next = newdeque;
+        Deque newdeque = new Deque(sentFront, item, sentFront.next);
         size += 1;
+        if (size == 1) {
+            sentBack = newdeque;
+        }
     }
 
     public void addLast(T item) {
-        Deque<T> newdeque = new Deque(sentBack.prev, item, sentBack);
-        sentBack.prev = newdeque;
+        Deque newdeque = new Deque(sentBack, item, null);
+        sentBack = newdeque;
         size += 1;
     }
 
@@ -47,7 +55,7 @@ public class LinkedListDeque<T> {
     }
 
     public void printDeque() {
-        Deque<T> ptr = sentFront;
+        Deque ptr = sentFront;
         while (ptr.next != null) {
             ptr = ptr.next;
             System.out.print(ptr.item);
@@ -60,47 +68,53 @@ public class LinkedListDeque<T> {
         if (size == 0) {
             return null;
         }
-        Deque<T> removedeque = sentFront.next;
+        Deque removedeque = sentFront.next;
         sentFront.next = removedeque.next;
+        if (removedeque == sentBack) {
+            sentBack = sentFront;
+        } else {
+            removedeque.next.prev = sentFront;
+        }
         size -= 1;
         return removedeque.item;
     }
 
-    public T removeLast() {
-        if (size == 0) {
-            return null;
+        public T removeLast () {
+            if (size == 0) {
+                return null;
+            }
+            Deque removedeque = sentBack;
+            sentBack = removedeque.prev;
+            sentBack.next = null;
+            size -= 1;
+            return removedeque.item;
         }
-        Deque<T> removedeque = sentBack.prev;
-        sentBack.prev = removedeque.prev;
-        size -= 1;
-        return removedeque.item;
-    }
 
-    public T get(int index) {
-        if (size <= index || size == 0) {
-            return null;
+        public T get ( int index){
+            if (size <= index || size == 0) {
+                return null;
+            }
+            Deque ptr = sentFront.next;
+            int a = 0;
+            while (a < index) {
+                a = a + 1;
+                ptr = ptr.next;
+            }
+            return ptr.item;
         }
-        Deque<T> ptr = sentFront.next;
-        int a = 0;
-        while (a < index) {
-            a = a + 1;
-            ptr = ptr.next;
-        }
-        return ptr.item;
-    }
 
-    private T helper(int index, Deque<T> newdeque) {
-        if (index == 0) {
-            return newdeque.item;
+        private T helper ( int index, Deque nowdeque){
+            if (index == 0) {
+                return nowdeque.item;
+            }
+            if (index >= size || size == 0) {
+                return null;
+            }
+            return helper(index - 1, nowdeque.next);
         }
-        return helper(index - 1, newdeque.next);
-    }
 
-    public T getRecursive(int index) {
-        if (index >= size || size == 0) {
-            return null;
+        public T getRecursive (int index){
+            return helper(index, sentFront.next);
         }
-        return helper(index, sentFront.next);
-    }
 
-}
+    }
