@@ -3,30 +3,27 @@ public class ArrayDeque<T> {
     private int size;
     private int first;
     private int last;
-    private int capacity;
 
     public ArrayDeque() {
-        capacity = 8;
         size = 0;
         first = 4;
         last = 5;
-        items = (T[]) new Object[capacity];
+        items = (T[]) new Object[8];
     }
 
 
     private int updatefirst(int i) {
-        return (i - 1 + capacity) % capacity;
+        return (i - 1 + items.length) % items.length;
     }
 
     private int updatelast(int i) {
-        return (i + 1 + capacity) % capacity;
+        return (i + 1 + items.length) % items.length;
     }
 
     private void resize(int x) {
         T[] a = (T[]) new Object[x];
-        capacity *= 2;
         for (int i = first + 1, j = 0; j < size; i++, j++) {
-            if (i >= capacity) {
+            if (i >= items.length) {
                 i = 0;
             }
             a[j] = items[i];
@@ -37,8 +34,8 @@ public class ArrayDeque<T> {
     }
 
     public void addFirst(T item) {
-        if (size >= capacity) {
-            resize(capacity * 2);
+        if (size >= items.length) {
+            resize(items.length * 2);
         }
         items[first] = item;
         first = updatefirst(first);
@@ -47,8 +44,8 @@ public class ArrayDeque<T> {
     }
 
     public void addLast(T item) {
-        if (size >= capacity) {
-            resize(capacity * 2);
+        if (size >= items.length) {
+            resize(items.length * 2);
         }
         items[last] = item;
         last = updatelast(last);
@@ -64,7 +61,7 @@ public class ArrayDeque<T> {
 
     public void printDeque() {
         for (int i = first + 1; i != last; i++) {
-            if (i >= capacity) {
+            if (i >= items.length) {
                 i = 0;
             }
             System.out.println(items[i]);
@@ -95,10 +92,7 @@ public class ArrayDeque<T> {
         if (index < 0 || index > size) {
             return null;
         }
-        if ((first + index + 1) > 0) {
-            return items[index];
-        }
-        return items[(first + index + 1) % capacity];
+        return items[(first + index + 1) % items.length];
     }
 
     public int size() {
@@ -113,8 +107,8 @@ public class ArrayDeque<T> {
         T x = items[first];
         items[first] = null;
         size -= 1;
-        if (size < capacity / 4 && capacity > 8) {
-            resize(capacity / 2);
+        if (size < items.length / 4 && items.length > 8) {
+            resize(items.length / 2);
         }
         return x;
     }
@@ -127,8 +121,8 @@ public class ArrayDeque<T> {
         T x = items[last];
         items[last] = null;
         size -= 1;
-        if (size < capacity / 4 && capacity > 8) {
-            resize(capacity / 2);
+        if (size < items.length / 4 && items.length > 8) {
+            resize(items.length / 2);
         }
         return x;
     }
