@@ -1,136 +1,137 @@
 public class ArrayDeque<T> {
+    private T[] items;
     private int size;
-    private T[] arrayDeque;
+    private int first;
+    private int last;
 
-    private int front;
-    private int end;
-
-    /* create an empty arrayDeque */
     public ArrayDeque() {
-        arrayDeque = (T []) new Object[8];  // initial length is 8
-        front = 3;
-        end = 4;
         size = 0;
+        first = 4;
+        last = 5;
+        items = (T[]) new Object[8];
     }
 
-    /* create a deep copy of the given arrayDeque */
-/*    public ArrayDeque(ArrayDeque other) {
-        arrayDeque = (T []) new Object[other.arrayDeque.length];
-        System.arraycopy(other.arrayDeque, 0, arrayDeque, 0, arrayDeque.length);
-        front = other.front;
-        end = other.end;
-        size = other.size;
-    }*/
 
-    /* resizing arrayDeque */
-    // shrink func is needed
-    private void resizing(int capacity) {
-        T[] newArrayDeque = (T []) new Object[capacity];
-        /* assign original items to the expanded array in order */
-        for (int i = front + 1, j = 0; j < size; i++, j++) {
-            /* if i exceeds the length then go back to 0 */
-            if (i >= arrayDeque.length) {
+    private int updatefirst(int i) {
+        if (i == 0) {
+            return items.length - 1;
+        }
+        return i - 1;
+    }
+
+    private int updatelast(int i) {
+        i = i % items.length;
+        if (i == items.length - 1) {
+            return 0;
+        }
+        return i + 1;
+    }
+
+    private void resize(int x) {
+        T[] a = (T[]) new Object[x];
+        for (int i = first + 1, j = 0; j < size; i++, j++) {
+            if (i >= items.length) {
                 i = 0;
             }
-            newArrayDeque[j] = arrayDeque[i];
+            a[j] = items[i];
         }
-        /* update old array to the expanded fresh new one */
-        end = size;
-        front = newArrayDeque.length - 1;
-        arrayDeque = newArrayDeque;
+        last = size;
+        first = x - 1;
+        items = a;
     }
 
-    /* add content to the first place of arrayDeque */
     public void addFirst(T item) {
-        if (size >= arrayDeque.length) {
-            resizing(arrayDeque.length * 2);
+        if (size >= items.length) {
+            resize(items.length * 2);
         }
-        size++;     //increase size
-        arrayDeque[front] = item;
-        front = front > 0 ? front - 1 : arrayDeque.length - 1; // update the position of front
+        items[first] = item;
+        first = updatefirst(first);
+        size += 1;
+
     }
 
-    /* add content to the last place of arrayDeque */
     public void addLast(T item) {
-        if (size >= arrayDeque.length) {
-            resizing(arrayDeque.length * 2);
+        if (size >= items.length) {
+            resize(items.length * 2);
         }
-        size++;     //increase size
-        arrayDeque[end] = item;
-        end = end < arrayDeque.length - 1 ? end + 1 : 0; // update the position of front
+        items[last] = item;
+        last = updatelast(last);
+        size += 1;
     }
 
-    /* remove the first item of arrayDeque */
-    public T removeFirst() {
-        // if it is empty, return null
-        if (isEmpty()) {
+    public boolean isEmpty() {
+        if (size <= 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public void printDeque() {
+        for (int i = first + 1; i != last; i++) {
+            if (i >= items.length) {
+                i = 0;
+            }
+            System.out.println(items[i]);
+        }
+    }
+
+    /**
+    private T getFirst() {
+        if (size <= 0) {
             return null;
         }
-        // go to the next box and change position of front
-        if (++front >= arrayDeque.length) {
-            front = 0;
-        }
-        // get the delete item
-        T temp = arrayDeque[front];
-        // wipe it out to release memory
-        arrayDeque[front] = null;
-        // decrease size
-        size--;
-        // resizing the array if it is too "empty"
-        if (size < arrayDeque.length / 4 && arrayDeque.length > 8) {
-            resizing(arrayDeque.length / 2);
-        }
-        return temp;
+        int index = first;
+        index = updatelast(index);
+        return items[index];
     }
 
-    /* remove the last item of arrayDeque */
-    public T removeLast() {
-        // if it is empty, return null
-        if (isEmpty()) {
+    private T getLast() {
+        if (size <= 0) {
             return null;
         }
-        // go to the box in front of end and change position of end
-        if (--end < 0) {
-            end = arrayDeque.length - 1;
+        int index = last;
+        index = updatefirst(index);
+        return items[index];
+    }
+    */
+
+    public T get(int index) {
+        if (index < 0 || index > size) {
+            return null;
         }
-        // get the delete item
-        T temp = arrayDeque[end];
-        // wipe it out to release memory
-        arrayDeque[end] = null;
-        // decrease size
-        size--;
-        // resizing the array if it is too "empty"
-        if (size < arrayDeque.length / 4 && arrayDeque.length > 8) {
-            resizing(arrayDeque.length / 2);
-        }
-        return temp;
+        return items[(first + index + 1) % items.length];
     }
 
-    /* get the size of arrayDeque */
     public int size() {
         return size;
     }
 
-    /* check if arrayDeque is empty */
-    public boolean isEmpty() {
-        return size == 0 ? true : false;
-    }
-
-    /* print all items in arraydeque */
-    public void printDeque() {
-        for (int i = front + 1; i != end; i++) {
-            if (i >= arrayDeque.length) {
-                i = 0;
-            }
-            System.out.println(arrayDeque[i]);
-        }
-    }
-
-    /* get the content of arrayDeque at given index*/
-    public T get(int index) {
-        if (index > size) {
+    public T removeFirst() {
+        if (size <= 0) {
             return null;
         }
-        return arrayDeque[(front + index + 1) % arrayDeque.length];
+        first = updatelast(first);   //go to the next position.
+        T x = items[first];
+        items[first] = null;
+        size -= 1;
+        if (size < items.length / 4 && items.length > 8) {
+            resize(items.length / 2);
+        }
+        return x;
     }
+
+    public T removeLast() {
+        if (size <= 0) {
+            return null;
+        }
+        last = updatefirst(last);
+        T x = items[last];
+        items[last] = null;
+        size -= 1;
+        if (size < items.length / 4 && items.length > 8) {
+            resize(items.length / 2);
+        }
+        return x;
+    }
+
 }
