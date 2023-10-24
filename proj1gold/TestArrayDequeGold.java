@@ -5,42 +5,36 @@ public class TestArrayDequeGold {
     
     @Test
     public void testStudentArrayDeque() {
-        StudentArrayDeque<Integer> actual = new StudentArrayDeque<>();
-        for (int i = 0; i < 10; i += 1) {
-            double numberBetweenZeroAndOne = StdRandom.uniform();
-            if (numberBetweenZeroAndOne < 0.5) {
-                actual.addLast(i);
-            } else {
-                actual.addFirst(i);
+        StudentArrayDeque<Integer> sad1 = new StudentArrayDeque<>();
+        ArrayDequeSolution<Integer> ads1 = new ArrayDequeSolution<>();
+        String message = "";
+        
+        for (int i = 0; i < 1000; i += 1) {
+            int randomInt = StdRandom.uniform(100);
+            double randomMethod = StdRandom.uniform(-2.0, 2.0);
+            if (randomMethod < -1 && ads1.size() > 0) {
+                Integer s1 = sad1.removeFirst();
+                Integer a1 = ads1.removeFirst();
+                String msg = "removeFirst()";
+                message = addMessage(message, msg);
+                assertEquals(message, a1, s1);
+            } else if (randomMethod < 1) {
+                sad1.addLast(randomInt);
+                ads1.addLast(randomInt);
+                String msg = "addLast(" + randomInt + ")";
+                message = addMessage(message, msg);
+            } else if (randomMethod < 2) {
+                sad1.addFirst(randomInt);
+                ads1.addFirst(randomInt);
+                String msg = "addFirst(" + randomInt + ")";
+                message = addMessage(message, msg);
             }
         }
-        Integer actual1 = actual.removeLast();
-        Integer actual2 = actual.removeFirst();
-        Integer actual3 = actual.removeFirst();
-        
-        ArrayDequeSolution<Integer> expected = new ArrayDequeSolution<>();
-        for (int i = 0; i < 10; i += 1) {
-            double numberBetweenZeroAndOne = StdRandom.uniform();
-            if (numberBetweenZeroAndOne < 0.5) {
-                expected.addLast(i);
-            } else {
-                expected.addFirst(i);
-            }
+    }
+    private String addMessage (String message, String msg){
+        if (message.equals("")) {
+            return "\n" + msg;
         }
-        Integer expected1 = expected.removeLast();
-        Integer expected2 = expected.removeFirst();
-        Integer expected3 = expected.removeFirst();
-        
-        
-
-        assertEquals("Oh noooo!\nThis is bad:\n   Random number " + actual1
-                        + " not equal to " + expected1 + "!",
-                expected1, actual1);
-        assertEquals("Oh noooo!\nThis is bad:\n   Random number " + actual2
-                        + " not equal to " + expected2 + "!",
-                expected2, actual2);
-        assertEquals("Oh noooo!\nThis is bad:\n   Random number " + actual3
-                        + " not equal to " + expected3 + "!",
-                expected3, actual3);
+        return message + "\n" + msg;
     }
 }
