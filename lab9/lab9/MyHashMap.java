@@ -83,8 +83,8 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         if (loadFactor() > MAX_LF) {
             resize();
         }
-        int keyHash = hash(key);
-        if (!buckets[keyHash].containsKey(key)) {   // 如果hashmap中没有这个key的index，则size+1
+        int keyHash = hash(key);                    // 获得key在hashmap中的index
+        if (!buckets[keyHash].containsKey(key)) {   // 根据index查找，如果hashmap中没有这个key，则size+1
             size += 1;
         }
         buckets[keyHash].put(key, value);
@@ -114,19 +114,27 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * UnsupportedOperationException. */
     @Override
     public V remove(K key) {
-        throw new UnsupportedOperationException();
+        int keyHash = hash(key);                  // 得到key的index
+        if (buckets[keyHash].containsKey(key)) {  // size-1
+            size -= 1;
+        }
+        return buckets[keyHash].remove(key);      // 借用arraymap的类删除
     }
 
     /* Removes the entry for the specified key only if it is currently mapped to
      * the specified value. Not required for this lab. If you don't implement this,
      * throw an UnsupportedOperationException.*/
     @Override
-    public V remove(K key, V value) {
-        throw new UnsupportedOperationException();
+    public V remove(K key, V value) {             // 同上
+        int keyHash = hash(key);
+        if (buckets[keyHash].get(key) == value) {
+            size -= 1;
+        }
+        return buckets[keyHash].remove(key, value);
     }
 
     @Override
     public Iterator<K> iterator() {
-        throw new UnsupportedOperationException();
+        return keySet().iterator();
     }
 }

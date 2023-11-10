@@ -1,5 +1,6 @@
 package lab9;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -27,6 +28,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
 
     private Node root;  /* Root node of the tree. */
     private int size; /* The number of key-value pairs in the tree */
+    private V deletedValue;
 
     /* Creates an empty BSTMap. */
     public BSTMap() {
@@ -104,20 +106,81 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     }
 
     //////////////// EVERYTHING BELOW THIS LINE IS OPTIONAL ////////////////
+    private void keySetHelper(Set<K> keys, Node p) {    // 遍历左边树和右边树
+        if (p == null) {
+            return;
+        }
+        keys.add(p.key);
+        keySetHelper(keys, p.left);
+        keySetHelper(keys, p.right);
+    }
 
     /* Returns a Set view of the keys contained in this map. */
     @Override
     public Set<K> keySet() {
-        throw new UnsupportedOperationException();
+        Set<K> keys = new HashSet<>();   // 新建一个hash集合
+        keySetHelper(keys, root);
+        return keys;
     }
-
+    
     /** Removes KEY from the tree if present
      *  returns VALUE removed,
      *  null on failed removal.
      */
+    private Node findmin(Node x) {  // 找到左边子树中最大的子树
+        if (x.right == null) {
+            return x;
+        } else {
+            return findmin(x.right);
+        }
+    }
+    
+    private Node deleteMin(Node x) { // 删除左边子树中最大的子树
+        if (x.right == null) {
+            return x.left;
+        }
+        x.right = deleteMin(x.right);
+        return x;
+    }
+    
+    private Node removeHelper(K key, Node p) {
+        if (get(key) == null) {
+            return null;
+        }
+        int cmp = p.key.compareTo(key);
+        if (cmp > 0) {
+            p.right = removeHelper(key, p.right);
+        } else if (cmp < 0) {
+            p.left = removeHelper(key, p.left);
+        } else {
+            deletedValue = p.value;
+            if (p.left == null) {
+                return p.right;
+            }
+            if (p.right == null) {
+                return p.left;
+            }
+            Node x = p;                   // 新建x，复制p
+            p = findmin(x.left);          // 将p设为x左边子树中最大的node
+            p.left = deleteMin(x.left);   // 重新连接左边子树
+            p.right = x.right;            // 重新连接右边子树
+        }
+        return p;
+    }
+    
     @Override
     public V remove(K key) {
-        throw new UnsupportedOperationException();
+        if (key == null) {
+            throw new IllegalArgumentException();
+        }
+        root = removeHelper(key, root);
+        V returnValue = deletedValue;
+        if (returnValue != null) {
+            size -= 1;
+        }
+        deletedValue = null;
+        return returnValue;
+        
     }
 
     /** Removes the key-value entry for the specified key only if it is
@@ -126,11 +189,22 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
      **/
     @Override
     public V remove(K key, V value) {
-        throw new UnsupportedOperationException();
+        if (get(key) != value) {
+            return null;
+        }
+        return remove(key);
     }
 
     @Override
     public Iterator<K> iterator() {
-        throw new UnsupportedOperationException();
+        return keySet().iterator();
+    }
+    
+    public static void main(String[] args) {
+        BSTMap<String, Integer> bstmap = new BSTMap<>();
+        bstmap.put("hello", 5);
+        bstmap.put("cat", 10);
+        bstmap.put("fish", 22);
+        bstmap.put("zebra", 90);
     }
 }
