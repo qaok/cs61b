@@ -1,5 +1,6 @@
 package lab9;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -7,7 +8,7 @@ import java.util.Set;
  *  A hash table-backed Map implementation. Provides amortized constant time
  *  access to elements via get(), remove(), and put() in the best case.
  *
- *  @author Your name here
+ *  @author qaok
  */
 public class MyHashMap<K, V> implements Map61B<K, V> {
 
@@ -39,7 +40,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      *  computing the hashcode, followed by modding by the number of buckets.
      *  To handle negative numbers properly, uses floorMod instead of %.
      */
-    private int hash(K key) {
+    private int hash(K key) {       // 获得key的hashcode，之后再获得该hashcode在整个hashmap中的index
         if (key == null) {
             return 0;
         }
@@ -53,27 +54,59 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     @Override
     public V get(K key) {
-        throw new UnsupportedOperationException();
+        int keyHash = hash(key);
+        return buckets[keyHash].get(key);
+    }
+    
+    private void resize() {
+        ArrayMap<K, V>[] newbuckets = new ArrayMap[buckets.length * 2];
+        for (int i = 0; i < newbuckets.length; i += 1) {
+            newbuckets[i] = new ArrayMap<>();
+        }
+        for (K key : keySet()) {
+            int keyHash = hash(key);     // 获得key在buckets中的index
+            newbuckets[Math.floorMod(key.hashCode(), 2 * buckets.length)].put(key, buckets[keyHash].get(key));
+        }
+        /**
+         * newbuckets[Math.floorMod(key.hashCode(), 2 * buckets.length)]
+         * 此处的Math.floorMod(key.hashCode(), 2 * buckets.length)主要是
+         * 获得key在newbuckets中的index，
+         * put(key, buckets[keyHash].get(key))是将原来的key——value配对重新放入
+         * newbuckets中
+         */
+        buckets = newbuckets;
     }
 
     /* Associates the specified value with the specified key in this map. */
     @Override
     public void put(K key, V value) {
-        throw new UnsupportedOperationException();
+        if (loadFactor() > MAX_LF) {
+            resize();
+        }
+        int keyHash = hash(key);
+        if (!buckets[keyHash].containsKey(key)) {   // 如果hashmap中没有这个key的index，则size+1
+            size += 1;
+        }
+        buckets[keyHash].put(key, value);
     }
 
     /* Returns the number of key-value mappings in this map. */
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        return size;
     }
 
     //////////////// EVERYTHING BELOW THIS LINE IS OPTIONAL ////////////////
 
     /* Returns a Set view of the keys contained in this map. */
     @Override
-    public Set<K> keySet() {
-        throw new UnsupportedOperationException();
+    public Set<K> keySet() {         // 主要就是返回map中的key
+        Set<K> keys = new HashSet<>();
+        for (int i = 0; i < buckets.length; i += 1) {
+            Set<K> keySetBucket = buckets[i].keySet();
+            keys.addAll(keySetBucket);
+        }
+        return keys;
     }
 
     /* Removes the mapping for the specified key from this map if exists.
