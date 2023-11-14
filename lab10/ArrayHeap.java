@@ -220,8 +220,8 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
             }
         }
         swap(indexItem, size);            // 删除该item
-        size--;
-        if (size > 0) {
+        size -= 1;
+        if (indexItem != 0 && size > 0) {
             sink(indexItem);
         }
         insert(item, priority);           // 再插入item
