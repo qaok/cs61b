@@ -219,12 +219,14 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
                 break;
             }
         }
-        swap(indexItem, size);            // 删除该item
-        size -= 1;
-        if (indexItem != 0 && size > 0) {
-            sink(indexItem);
+        if (indexItem != 0) {
+            swap(indexItem, size);            // 删除该item
+            size -= 1;
+            if (size > 0) {
+                sink(indexItem);
+            }
+            insert(item, priority);           // 再插入item
         }
-        insert(item, priority);           // 再插入item
     }
 
     /**
