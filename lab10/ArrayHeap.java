@@ -220,12 +220,9 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
             }
         }
         if (indexItem != 0) {
-            swap(indexItem, size);            // 删除该item
-            size -= 1;
-            if (size > 0) {
-                sink(indexItem);
-            }
-            insert(item, priority);           // 再插入item
+            contents[indexItem].myPriority = priority;
+            swim(indexItem);
+            sink(indexItem);
         }
     }
 
