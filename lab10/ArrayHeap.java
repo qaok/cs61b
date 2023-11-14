@@ -112,9 +112,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
             int indexP = parentIndex(index);
             if (indexP != min(index, indexP)) {
                 swap(index, indexP);
-                if (indexP != 1) {
-                    swim(indexP);
-                }
+                swim(indexP);
             }
         }
     }
@@ -129,11 +127,13 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         /** Your code here. */
         if (index * 2 < contents.length) {
             int indexL = leftIndex(index);
-            int indexR = rightIndex(index);
-            if (index != min(index, indexL) || index != min(index, indexR)) {
-                int minLR = min(indexL, indexR);
-                swap(index, minLR);
-                sink(minLR);
+            if (indexL < contents.length) {
+                int indexR = rightIndex(index);
+                if (index != min(index, indexL) || index != min(index, indexR)) {
+                    int minLR = min(indexL, indexR);
+                    swap(index, minLR);
+                    sink(minLR);
+                }
             }
         }
     }
