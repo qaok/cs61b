@@ -125,15 +125,16 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         validateSinkSwimArg(index);
 
         /** Your code here. */
-        if (index * 2 < contents.length) {
+        if (index * 2 <= size) {              // 左边子树索引是否正常
             int indexL = leftIndex(index);
-            if (indexL + 1 < contents.length) {
-                int indexR = rightIndex(index);
-                if (index != min(index, indexL) || index != min(index, indexR)) {
-                    int minLR = min(indexL, indexR);
-                    swap(index, minLR);
-                    sink(minLR);
-                }
+            int indexR = indexL;
+            if (indexL < size) {              // 右边子树索引是否正常
+                indexR = rightIndex(index);
+            }
+            if (index != min(index, indexL) || index != min(index, indexR)) {
+                int minLR = min(indexL, indexR);
+                swap(index, minLR);
+                sink(minLR);
             }
         }
     }
@@ -211,7 +212,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     public void changePriority(T item, double priority) {
         /* Your code here! */
         int indexItem = 0;
-        for (int i = 1; i < contents.length; i += 1) {   // 找出相同的item
+        for (int i = 1; i <= size; i += 1) {   // 找出相同的item
             T equalT = contents[i].myItem;
             if (equalT.equals(item)) {
                 indexItem = i;
