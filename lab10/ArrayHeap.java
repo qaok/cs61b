@@ -127,7 +127,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         /** Your code here. */
         if (index * 2 < contents.length) {
             int indexL = leftIndex(index);
-            if (indexL < contents.length) {
+            if (indexL + 1 < contents.length) {
                 int indexR = rightIndex(index);
                 if (index != min(index, indexL) || index != min(index, indexR)) {
                     int minLR = min(indexL, indexR);
@@ -211,19 +211,19 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     public void changePriority(T item, double priority) {
         /* Your code here! */
         int indexItem = 0;
-        for (int i = 1; i < contents.length; i += 1) {
+        for (int i = 1; i < contents.length; i += 1) {   // 找出相同的item
             T equalT = contents[i].myItem;
             if (equalT.equals(item)) {
                 indexItem = i;
                 break;
             }
         }
-        swap(indexItem, size);
+        swap(indexItem, size);            // 删除该item
         size--;
         if (size > 0) {
             sink(indexItem);
         }
-        insert(item, priority);
+        insert(item, priority);           // 再插入item
     }
 
     /**
