@@ -1,4 +1,5 @@
 import edu.princeton.cs.algs4.Queue;
+import org.junit.Test;
 
 public class QuickSort {
     /**
@@ -48,12 +49,44 @@ public class QuickSort {
             Queue<Item> unsorted, Item pivot,
             Queue<Item> less, Queue<Item> equal, Queue<Item> greater) {
         // Your code here!
+        for (Item item: unsorted) {
+            if (pivot.compareTo(item) > 0) {
+                less.enqueue(item);
+            } else if (pivot.compareTo(item) < 0) {
+                greater.enqueue(item);
+            } else {
+                equal.enqueue(item);
+            }
+        }
     }
 
     /** Returns a Queue that contains the given items sorted from least to greatest. */
     public static <Item extends Comparable> Queue<Item> quickSort(
             Queue<Item> items) {
         // Your code here!
-        return items;
+        if (items.size() <= 1) {
+            return items;
+        }
+        Item pivot = getRandomItem(items);
+        Queue<Item> less = new Queue<>();
+        Queue<Item> equal = new Queue<>();
+        Queue<Item> greater = new Queue<>();
+        partition(items, pivot, less, equal, greater);
+        // 此处的less Queue还需继续recursion，直到item.size()为1
+        Queue<Item> newq = catenate(quickSort(less), equal);
+        // 此处的greater Queue也需继续recursion，直到item.size()为1
+        Queue<Item> newqs = catenate(newq, quickSort(greater));
+        return newqs;
+    }
+    
+    @Test
+    public static void main(String[] args) {
+        Queue<String> students = new Queue<String>();
+        students.enqueue("Alice");
+        students.enqueue("Vanessa");
+        students.enqueue("Ethan");
+        students.enqueue("Bthan");
+        System.out.println(students);
+        System.out.println(QuickSort.quickSort(students));
     }
 }
