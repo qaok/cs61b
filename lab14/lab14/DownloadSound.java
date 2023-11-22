@@ -22,15 +22,16 @@ import java.nio.channels.ReadableByteChannel;
 import java.net.URL;
 
 public class DownloadSound {
-
+    
     /* Pattern string used to match the class name. */
     static final String CLASS_PATTERN = "class[\\s]+([\\w]+).*\\{";
-
+    
     /* Temporarily stores the file when first downloaded to this name. */
     static final String TMP_NAME = "GZ2TPEFHXMB4.txt";
-
-    /** Downloads the code from URL and stores it into a file located at
-     *  TMP_NAME.
+    
+    /**
+     * Downloads the code from URL and stores it into a file located at
+     * TMP_NAME.
      */
     public static void downloadCode(String url) {
         System.out.println(">> Downloading from " + url);
@@ -46,9 +47,10 @@ public class DownloadSound {
             System.exit(1);
         }
     }
-
-    /** Returns the code stored in file located at SOURCE and deletes the
-     *  SOURCE file. Throws an IOException if the source file is not found.
+    
+    /**
+     * Returns the code stored in file located at SOURCE and deletes the
+     * SOURCE file. Throws an IOException if the source file is not found.
      */
     public static String readCode(String source) {
         String output = "";
@@ -57,7 +59,7 @@ public class DownloadSound {
             String separator = System.getProperty("line.separator");
             BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
             output = reader.lines().collect(Collectors.joining(separator));
-
+            
             // Delete the file when read in.
             Files.deleteIfExists(Paths.get(source));
         } catch (IOException e) {
@@ -66,9 +68,10 @@ public class DownloadSound {
         }
         return output;
     }
-
-    /** Writes the contents of CODE to a file named CLASSNAME.java. Throws an
-     *  IOException if anything goes wrong.
+    
+    /**
+     * Writes the contents of CODE to a file named CLASSNAME.java. Throws an
+     * IOException if anything goes wrong.
      */
     public static void saveCode(String className, String code) {
         System.out.println(">> Saving code to " + className + ".java");
@@ -80,9 +83,10 @@ public class DownloadSound {
             System.exit(1);
         }
     }
-
-    /** Returns the class name parsed from the java CODE string. If no class
-     *  name is found, prints an error and exits the program with error code 1
+    
+    /**
+     * Returns the class name parsed from the java CODE string. If no class
+     * name is found, prints an error and exits the program with error code 1
      */
     public static String parseClassName(String code) {
         Pattern pattern = Pattern.compile(CLASS_PATTERN);
@@ -97,17 +101,17 @@ public class DownloadSound {
         }
         return output;
     }
-
-	public static void main(String[] args) {
+    
+    public static void main(String[] args) {
         if (args.length < 1 || args.length > 1) {
             System.out.println("ERROR: Please provide a sound URL");
             System.exit(1);
         }
-
+        
         // Save the code from the w e b.
         downloadCode(args[0]);
         String code = readCode(TMP_NAME);
         String className = parseClassName(code);
         saveCode(className, code);
-	}
+    }
 }
