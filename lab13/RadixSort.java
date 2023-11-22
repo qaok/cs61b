@@ -26,7 +26,7 @@ public class RadixSort {
         for (String str : asciis) {                      // 找出最长的string
             maxLength = Math.max(maxLength, str.length());
         }
-        for (int i = 0; i < maxLength - 1; i++) {        // 按最大的string来确定长度
+        for (int i = maxLength - 1; i >= 0; i--) {        // 按最大的string来确定长度
             sortHelperLSD(array, i);                      // 从个位数开始排起，依次往十位数排，直到排完最长的string的digits
         }
         return array;
@@ -49,7 +49,7 @@ public class RadixSort {
         for (int i = 0; i < asciis.length; i++) {
             int asciiNums;
             try {
-                // System.out.println(asciis[i].charAt(index));
+                //System.out.println(asciis[i].charAt(index));
                 asciiNums = (int) asciis[i].charAt(index);
             } catch (StringIndexOutOfBoundsException e) {
                 asciiNums = 0;
@@ -79,7 +79,7 @@ public class RadixSort {
     
     public static void main(String[] args) {
 
-        String[] strings = new String[]{"1000", "country", "melody", "desert", "union", "5000", "hungry"};
+        String[] strings = new String[]{"356", "112", "904", "294", "209", "820", "394", "810"};
         strings = sort(strings);
         for (String string : strings) {
             System.out.println(string);
