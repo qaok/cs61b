@@ -41,7 +41,7 @@ public class RadixSort {
     private static void sortHelperLSD(String[] asciis, int index) {
         // Optional LSD helper method for required LSD radix sort
         int R = 256;
-        int[] counts = new int[R];
+        int[] count = new int[R];
         int[] starts = new int[R];
         int[] indexs = new int[asciis.length];
         
@@ -56,13 +56,16 @@ public class RadixSort {
             }
             // 此处按照原来在asciis中每个string的顺序放入indexs array中
             indexs[i] = asciiNums;
-            counts[asciiNums]++;      // counts中相同的index则数值加一
+            count[asciiNums]++;      // counts中相同的index则数值加一
         }
         
+        /**for (int i = 0; i < starts.length - 1; i++) {  // 调整starts的index
+            starts[i + 1] = starts[i] + count[i];
+        }*/
         int pos = 0;
-        for (int i = 0; i < starts.length - 1; i++) {  // 调整starts的index
+        for (int i = 0; i < R; i++) {
             starts[i] = pos;
-            pos += counts[i];
+            pos += count[i];
         }
         String[] sortedAsciis = new String[asciis.length];
         for (int i = 0; i < asciis.length; i++) {      // 此处沿用CountingSort方法
@@ -81,7 +84,7 @@ public class RadixSort {
     
     public static void main(String[] args) {
 
-        String[] strings = new String[]{"356", "112", "904", "294", "209", "820", "394", "810"};
+        String[] strings = new String[]{"35006", "112", "9040", "294", "9209", "8200", "394", "8210"};
         strings = sort(strings);
         for (String string : strings) {
             System.out.println(string);
