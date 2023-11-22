@@ -1,7 +1,8 @@
+import java.util.HashMap;
 /**
  * Class with 2 ways of doing Counting sort, one naive way and one "better" way
  *
- * @author Akhil Batra, Alexander Hwang
+ * @author qaok
  *
  **/
 public class CountingSort {
@@ -21,7 +22,7 @@ public class CountingSort {
         }
 
         // gather all the counts for each value
-        int[] counts = new int[max + 1];
+        int[] counts = new int[max + 1];   // 感觉非常浪费内存
         for (int i : arr) {
             counts[i]++;
         }
@@ -65,8 +66,26 @@ public class CountingSort {
      *
      * @param arr int array that will be sorted
      */
-    public static int[] betterCountingSort(int[] arr) {
-        // TODO make counting sort work with arrays containing negative numbers.
-        return null;
+    public static int[] betterCountingSort(int[] arr){
+        // make counting sort work with arrays containing negative numbers.
+        int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;
+        for (int i : arr) {
+            max = Math.max(max, i);
+            min = Math.min(min, i);
+        }
+        
+        int[] counts = new int[max - min + 1];  // 改变元素index
+        for (int i : arr) {
+            counts[i - min]++;                  // 所有index均减去min
+        }
+        
+        int[] sorted = new int[arr.length];
+        int k = 0;
+        for (int i = 0; i < counts.length; i += 1) {
+            for (int j = 0; j < counts[i]; j += 1, k += 1) {
+                sorted[k] = i + min;            // 这里再加回min
+            }
+        }
+        return sorted;
     }
 }
