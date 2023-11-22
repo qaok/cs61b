@@ -41,7 +41,7 @@ public class RadixSort {
     private static void sortHelperLSD(String[] asciis, int index) {
         // Optional LSD helper method for required LSD radix sort
         int R = 256;
-        int[] count = new int[R];
+        int[] counts = new int[R];
         int[] starts = new int[R];
         int[] indexs = new int[asciis.length];
         
@@ -56,11 +56,13 @@ public class RadixSort {
             }
             // 此处按照原来在asciis中每个string的顺序放入indexs array中
             indexs[i] = asciiNums;
-            count[asciiNums]++;      // counts中相同的index则数值加一
+            counts[asciiNums]++;      // counts中相同的index则数值加一
         }
         
+        int pos = 0;
         for (int i = 0; i < starts.length - 1; i++) {  // 调整starts的index
-            starts[i + 1] = starts[i] + count[i];
+            starts[i] = pos;
+            pos += counts[i];
         }
         String[] sortedAsciis = new String[asciis.length];
         for (int i = 0; i < asciis.length; i++) {      // 此处沿用CountingSort方法
