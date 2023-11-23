@@ -5,10 +5,10 @@ public class SeamCarver {
     private Picture picture;
     private int width;
     private int height;
-    int xplus, yplus;
-    int xminus, yminus;
-    double xR, xG, xB;
-    double yR, yG, yB;
+    private int xplus, yplus;
+    private int xminus, yminus;
+    private double xR, xG, xB;
+    private double yR, yG, yB;
     
     private boolean illegalIndex(int x, int y) {
         if (x < 0 || x >= width || y < 0 || y >= height) {
@@ -135,14 +135,14 @@ public class SeamCarver {
         }
         
         int[] minIndexs = new int[height()];
-        for (int i = 0; i < height; i++) {
-            if (i == 0) {
-                // 确认第一行的最小值
+        for (int i = height - 1; i >= 0; i--) {
+            if (i == height - 1) {
+                // 确认最后一行的最小值
                 minIndexs[i] = minIndex(cost[i], 0, width - 1);
             } else {
-                // 在确认了第一行的最小值后，再依据其索引，给定start和end的范围进行搜索
-                minIndexs[i] = minIndex(cost[i], minIndexs[i - 1] - 1,
-                        minIndexs[i - 1] + 1);
+                // 在确认了最后一行的最小值后，再依据其索引，给定start和end的范围进行搜索
+                minIndexs[i] = minIndex(cost[i], minIndexs[i + 1] - 1,
+                        minIndexs[i + 1] + 1);
             }
         }
         return minIndexs;
@@ -163,7 +163,7 @@ public class SeamCarver {
     
     private boolean isValidSeam(int[] seam) {
         for (int i = 0, j = 1; j < seam.length; i++, j++) {   // 此时作业要求禁用Math.abs
-            if (seam[i] - seam[j] > 1) {
+            if (seam[i] - seam[j] > 1) {           // 确认seam[i]和seam[j]之差是否大于1
                 return false;
             } else if (seam[i] - seam[j] < 0) {
                 if (seam[j] - seam[i] > 1) {
