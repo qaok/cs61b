@@ -15,7 +15,7 @@ public class GraphDBLauncher {
         Iterable<Long> verticesIterable = g.vertices();
 
         /* Convert iterable to a list. */
-        List<Long> vertices = new ArrayList<Long>();
+        List<Long> vertices = new ArrayList<>();
         for (long v : verticesIterable) {
             vertices.add(v);
         }

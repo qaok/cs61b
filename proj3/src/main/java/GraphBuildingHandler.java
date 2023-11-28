@@ -5,6 +5,8 @@ import org.xml.sax.helpers.DefaultHandler;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  *  Parses OSM XML files using an XML SAX parser. Used to construct the graph of roads for
@@ -38,6 +40,9 @@ public class GraphBuildingHandler extends DefaultHandler {
                     "secondary_link", "tertiary_link"));
     private String activeState = "";
     private final GraphDB g;
+    private GraphDB.Edge way;
+    private GraphDB.Node lastNode;
+    private List<String> connections = new ArrayList<>();
 
     /**
      * Create a new GraphBuildingHandler.
@@ -72,47 +77,63 @@ public class GraphBuildingHandler extends DefaultHandler {
 //            System.out.println("Node lon: " + attributes.getValue("lon"));
 //            System.out.println("Node lat: " + attributes.getValue("lat"));
 
-            /* TODO Use the above information to save a "node" to somewhere. */
+            /* Use the above information to save a "node" to somewhere. */
             /* Hint: A graph-like structure would be nice. */
-
+            String id = attributes.getValue("id");     // 得到id值
+            // attributes 是osm中识别出来的数据
+            double lon = Double.parseDouble(attributes.getValue("lon"));   // 得到lon值
+            double lat = Double.parseDouble(attributes.getValue("lat"));   // 得到lat值
+            GraphDB.Node node = g.new Node(id, lon, lat);   // 创建新Node
+            g.addNode(node);   // 添加新节点
+            lastNode = node;   // 留存最后一个节点
         } else if (qName.equals("way")) {
             /* We encountered a new <way...> tag. */
             activeState = "way";
 //            System.out.println("Beginning a way...");
+            way = g.new Edge();     // 设置way为新edge
+            way.setId(attributes.getValue("id")); // 设置edge的id
+            
         } else if (activeState.equals("way") && qName.equals("nd")) {
             /* While looking at a way, we found a <nd...> tag. */
-            //System.out.println("Id of a node in this way: " + attributes.getValue("ref"));
+//            System.out.println("Id of a node in this way: " + attributes.getValue("ref"));
 
-            /* TODO Use the above id to make "possible" connections between the nodes in this way */
+            /* Use the above id to make "possible" connections between the nodes in this way */
             /* Hint1: It would be useful to remember what was the last node in this way. */
             /* Hint2: Not all ways are valid. So, directly connecting the nodes here would be
             cumbersome since you might have to remove the connections if you later see a tag that
             makes this way invalid. Instead, think of keeping a list of possible connections and
             remember whether this way is valid or not. */
+            connections.add(attributes.getValue("ref"));  // 往connections list中添加ref的数据值
 
         } else if (activeState.equals("way") && qName.equals("tag")) {
             /* While looking at a way, we found a <tag...> tag. */
             String k = attributes.getValue("k");
             String v = attributes.getValue("v");
             if (k.equals("maxspeed")) {
-                //System.out.println("Max Speed: " + v);
-                /* TODO set the max speed of the "current way" here. */
+//                System.out.println("Max Speed: " + v);
+                /* Tset the max speed of the "current way" here. */
+                way.setMaxspeed(GraphDB.cleanString(v));  // 设置maxspeed
             } else if (k.equals("highway")) {
-                //System.out.println("Highway type: " + v);
-                /* TODO Figure out whether this way and its connections are valid. */
+//                System.out.println("Highway type: " + v);
+                /* Figure out whether this way and its connections are valid. */
                 /* Hint: Setting a "flag" is good enough! */
+                if (ALLOWED_HIGHWAY_TYPES.contains(v)) {  // 确认v的值是否为上面hashset中所包含的名称
+                    way.setValid(true);
+                }
             } else if (k.equals("name")) {
-                //System.out.println("Way Name: " + v);
+//                System.out.println("Way Name: " + v);
+                way.setName(v);      // 如果k值等于"name"，则设置way的名称为v
             }
 //            System.out.println("Tag with k=" + k + ", v=" + v + ".");
         } else if (activeState.equals("node") && qName.equals("tag") && attributes.getValue("k")
                 .equals("name")) {
             /* While looking at a node, we found a <tag...> with k="name". */
-            /* TODO Create a location. */
+            /* Create a location. */
             /* Hint: Since we found this <tag...> INSIDE a node, we should probably remember which
             node this tag belongs to. Remember XML is parsed top-to-bottom, so probably it's the
             last node that you looked at (check the first if-case). */
 //            System.out.println("Node's name: " + attributes.getValue("v"));
+            lastNode.setLocation(attributes.getValue("v"));   // 最后留存的节点设置location为v值
         }
     }
 
@@ -134,6 +155,18 @@ public class GraphBuildingHandler extends DefaultHandler {
             /* Hint1: If you have stored the possible connections for this way, here's your
             chance to actually connect the nodes together if the way is valid. */
 //            System.out.println("Finishing a way...");
+            if (way.isValid()) {     // if the way is valid
+                // connect i and i + 1, 在node和g中分别连接
+                for (int i = 0; i < connections.size() - 1; i++) {
+                    GraphDB.Node node = g.getNode(connections.get(i));
+                    node.connect(connections.get(i + 1));
+                    // 将g中的node连接起来
+                    g.getNode(connections.get(i + 1)).connect(connections.get(i));
+                }
+                // if the way is not valid
+                g.addEdge(way);
+            }
+            connections.clear(); // 最后清除connections中的所有元素
         }
     }
 
