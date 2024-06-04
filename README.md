@@ -3,41 +3,40 @@
 该课程前面四周的课是Java基础语法，后面的课多为数据结构部分的内容，课程的作业主要包括三个部分，homeworks、labs、projects。
 
 ## hws
-    HW 0: A Java Crash Course
-    HW 1: Packages, Interfaces, Generics, Exceptions, Iteration
-    HW 2: Percolation
-    HW 3: Hashing
-    HW 4: 8 Puzzle
-    HW 5: Seam Carving
-    HW 6: Boggle
-    HW 7: Huffman Coding
+### HW 0: A Java Crash Course
+### HW 1: Packages, Interfaces, Generics, Exceptions, Iteration
+### HW 2: Percolation
+### HW 3: Hashing
+### HW 4: 8 Puzzle
+### HW 5: Seam Carving
+### HW 6: Boggle
+### HW 7: Huffman Coding
 
 ## labs
-    Lab 1 Setup: Setting Up Your Computer
-    Lab 1: javac, java, git
-    Lab 2 setup: Setting Up IntelliJ
-    Lab 2: Unit Testing with JUnit and IntLists
-    Lab 3: Unit Testing with JUnit, Debugging
-    Lab 9: Tree Maps vs. Hash Maps
-    Lab 10: Priority Queues
-    Lab 11: Graphs
-    Lab 12: Merge Sort and Quick Sort
-    Lab 13: Radix Sorts
-    Lab 14: Fractal Sound
+### Lab 1 Setup: Setting Up Your Computer
+### Lab 1: javac, java, git
+### Lab 2 setup: Setting Up IntelliJ
+### Lab 2: Unit Testing with JUnit and IntLists
+### Lab 3: Unit Testing with JUnit, Debugging
+### Lab 9: Tree Maps vs. Hash Maps
+### Lab 10: Priority Queues
+### Lab 11: Graphs
+### Lab 12: Merge Sort and Quick Sort
+### Lab 13: Radix Sorts
+### Lab 14: Fractal Sound
 
 ## projs
-     PROJECT 0: NBody Simulation
-        用命令行来解译：javac Planet.java TestPlanetConstructor.java
-        再用命令行运行：java TestPlanetConstructor
+### PROJECT 0: NBody Simulation
++ 用命令行来解译：javac Planet.java TestPlanetConstructor.java
++ 再用命令行运行：java TestPlanetConstructor
+### Project 1A: Data Structures
++ 实现两个数据结构LinkedListDeque and ArrayDeque
 
-    Project 1A: Data Structures
-        实现两个数据结构LinkedListDeque and ArrayDeque
+### Project 1B: Applying and Testing Data Structures version 1.0
++ 测试写的数据结构
 
-    Project 1B: Applying and Testing Data Structures version 1.0
-        测试写的数据结构
-
-    Project 2: CS61BYoG
-        主要是建立一个迷宫
+### Project 2: CS61BYoG
++ 主要是建立一个迷宫，类似于我的世界2D版
 
 ### Project 3: Bear Maps, version 3.0     
 + 背景：
