@@ -12,7 +12,7 @@ public class PercolationStats {
         if (N <= 0 || T <= 0) {
             throw new IllegalArgumentException();
         }
-        this.T = T;
+        this.T = T;                 // 进行T次实验
         doubles = new double[T];
         for (int i = 0; i < T; i += 1) {
             Percolation per = pf.make(N);
@@ -21,7 +21,7 @@ public class PercolationStats {
                 int col = StdRandom.uniform(N);
                 per.open(row, col);
             }
-            doubles[i] = per.numberOfOpenSites() * 1.0 / (N * N);
+            doubles[i] = per.numberOfOpenSites() * 1.0 / (N * N);  // 每次实验的值
         }
     }
     

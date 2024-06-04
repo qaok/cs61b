@@ -51,6 +51,7 @@ public class RadixSort {
             try {
                 //System.out.println(asciis[i].charAt(index));
                 asciiNums = (int) asciis[i].charAt(index);
+            // 此处要为避免其他string的长度较短时，出现的index out error
             } catch (StringIndexOutOfBoundsException e) {
                 asciiNums = 0;
             }
@@ -84,7 +85,7 @@ public class RadixSort {
     
     public static void main(String[] args) {
 
-        String[] strings = new String[]{"35006", "112", "9040", "294", "9209", "8200", "394", "8210"};
+        String[] strings = new String[]{"356", "112", "904", "294", "209", "820", "394", "810"};
         strings = sort(strings);
         for (String string : strings) {
             System.out.println(string);

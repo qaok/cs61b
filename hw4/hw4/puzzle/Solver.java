@@ -1,8 +1,6 @@
 package hw4.puzzle;
 
 import edu.princeton.cs.algs4.MinPQ;
-
-import java.util.HashSet;
 import java.util.ArrayList;
 
 public class Solver {

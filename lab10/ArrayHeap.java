@@ -220,7 +220,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
             }
         }
         if (indexItem != 0) {
-            contents[indexItem].myPriority = priority;
+            contents[indexItem].myPriority = priority;  // 改变priority，并上游或下沉
             swim(indexItem);
             sink(indexItem);
         }

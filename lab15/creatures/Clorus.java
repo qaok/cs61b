@@ -1,2 +1,4 @@
-package creatures;public class Clorus {
+package creatures;
+
+public class Clorus {
 }

@@ -12,6 +12,7 @@ import java.io.*;       // TODO:没搞懂啥意思
 
 public class Game {
     transient TERenderer ter = new TERenderer();
+    private static final long serialVersionUID = 123123123123123L;
     /* Feel free to change the width and height. */
     public static final int WIDTH = 80;
     public static final int HEIGHT = 80;
@@ -240,13 +241,11 @@ public class Game {
     /**
      * display description when mouse hovers on tiles
      */
-    private void mouseHover() {
+    private void mouseHover() {   // TODO:没搞懂
     
     }
     
-    /**
-     * draw seed on the screen
-     */
+    // 种子交互输入时显示的文字
     private void drawSeedFrame(String s) {
         StdDraw.clear(Color.BLACK);
         StdDraw.setPenColor(Color.WHITE);

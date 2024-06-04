@@ -1,2 +1,3 @@
-package PACKAGE_NAME;public interface IntUnaryFunction {
+public interface IntUnaryFunction {
+    int apply(int x);
 }

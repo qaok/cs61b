@@ -5,6 +5,8 @@ public class Position implements Serializable {
     public int x;
     public int y;
     
+    private static final long serialVersionUID = 123123123123124L;
+    
     public Position(int x, int y) {
         this.x = x;
         this.y = y;

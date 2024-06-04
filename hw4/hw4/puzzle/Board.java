@@ -3,7 +3,7 @@ package hw4.puzzle;
 import edu.princeton.cs.algs4.Queue;
 import java.util.Arrays;
 
-public class Board implements WorldState{
+public class Board implements WorldState {
     private final int N;
     private int[][] board;
     private final int BLANK = 0;
@@ -22,7 +22,7 @@ public class Board implements WorldState{
     
     /**Returns value of tile at row i, column j (or 0 if blank)*/
     public int tileAt(int i, int j) {
-        if (i <0 || i >= N || j < 0 || j >= N) {
+        if (i < 0 || i >= N || j < 0 || j >= N) {
             throw new IndexOutOfBoundsException();
         }
         return board[i][j];
@@ -41,8 +41,8 @@ public class Board implements WorldState{
         int n = size();
         int row = -1;
         int col = -1;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
+        for (int i = 0; i < n; i += 1) {
+            for (int j = 0; j < n; j += 1) {
                 if (tileAt(i, j) == BLANK) {  // 找出空白处（即0）最初所在的行列数
                     row = i;
                     col = j;
@@ -50,13 +50,13 @@ public class Board implements WorldState{
             }
         }
         int[][] boardTiles = new int[n][n];
-        for (int i = 0; i < n; i++) {         // 遍历二维数组并copy
-            for (int j = 0; j < n; j++) {
+        for (int i = 0; i < n; i += 1) {         // 遍历二维数组并copy
+            for (int j = 0; j < n; j += 1) {
                 boardTiles[i][j] = tileAt(i, j);
             }
         }
         for (int i = 0; i < n; i += 1) {
-            for (int j = 0; j < n; j++) {
+            for (int j = 0; j < n; j += 1) {
                 if (Math.abs(-row + i) + Math.abs(j - col) - 1 == 0) {
                     // swap blank tile and a near tile
                     boardTiles[row][col] = boardTiles[i][j];
@@ -79,13 +79,13 @@ public class Board implements WorldState{
     /**Hamming estimate described below*/
     public int hamming() {
         int ditance = 0;
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
+        for (int i = 0; i < N; i += 1) {
+            for (int j = 0; j < N; j += 1) {
                 if (board[i][j] == BLANK) {  // 跳过空白处
                     continue;
                 }
                 if (board[i][j] != xyTo1D(i, j)) {
-                    ditance++;
+                    ditance += 1;
                 }
             }
         }
@@ -93,7 +93,7 @@ public class Board implements WorldState{
     }
     
     private int[] intToXY(int s) {
-        return new int[] { (s - 1) / N, (s - 1) % N };
+        return new int[] {(s - 1) / N, (s - 1) % N};
     }
     
     private int getXYDiff(int s, int i, int j) {
@@ -157,7 +157,7 @@ public class Board implements WorldState{
         s.append(N + "\n");
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                s.append(String.format("%2d ", tileAt(i,j)));
+                s.append(String.format("%2d ", tileAt(i, j)));
             }
             s.append("\n");
         }

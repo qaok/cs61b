@@ -47,7 +47,10 @@ public class TestComplexOomage {
             int k = 1;
             for (int j = 0; j < 10; j += 1) {
                 k *= 2;
-                nums.add((2 * i * k) % 256);            // 2 * i * k形成2的倍数，暴露ComplexOomage中hashcode的问题
+                nums.add((2 * i * k) % 256);
+                /**
+                 * 2 * i * k形成2的倍数，暴露ComplexOomage中hashcode的问题
+                 */
             }
             deadlyList.add(new ComplexOomage(nums));
         }
