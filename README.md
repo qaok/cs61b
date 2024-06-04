@@ -2,7 +2,7 @@
 ## 主要内容
 该课程前面四周的课是Java基础语法，后面的课多为数据结构部分的内容，课程的作业主要包括三个部分，homeworks、labs、projects。
 
-## hws
+## HWs
 ### HW 0: A Java Crash Course
 ### HW 1: Packages, Interfaces, Generics, Exceptions, Iteration
 ### HW 2: Percolation
@@ -12,7 +12,7 @@
 ### HW 6: Boggle
 ### HW 7: Huffman Coding
 
-## labs
+## Labs
 ### Lab 1 Setup: Setting Up Your Computer
 ### Lab 1: javac, java, git
 ### Lab 2 setup: Setting Up IntelliJ
@@ -25,7 +25,7 @@
 ### Lab 13: Radix Sorts
 ### Lab 14: Fractal Sound
 
-## projs
+## Projs
 ### PROJECT 0: NBody Simulation
 + 用命令行来解译：javac Planet.java TestPlanetConstructor.java
 + 再用命令行运行：java TestPlanetConstructor
